@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class PhotoDestroyRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'photos'   => 'required|array|min:1',
+            'photos.*' => 'exists:photos,id',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'photos.required' => 'Debes seleccionar al menos una imagen.',
+            'photos.array'    => 'Selección inválida.',
+            'photos.*.exists' => 'Alguna de las imágenes seleccionadas no existe.',
+        ];
+    }
+}
